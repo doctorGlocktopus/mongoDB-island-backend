@@ -1,0 +1,4 @@
+# Kommentare beginnen mit einem Hash-Zeichen
+*.log            # Ignoriere alle Log-Dateien
+node_modules/    # Ignoriere das Verzeichnis node_modules/
+secret.txt       # Ignoriere eine spezifische Datei namens secret.txt
