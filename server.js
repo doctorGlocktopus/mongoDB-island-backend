@@ -53,6 +53,25 @@ app.get('/api/items', async (req, res) => {
   }
 });
 
+app.post('/api/query', async (req, res) => {
+  try {
+    const db = client.db('test');
+
+    const parts = req.body.query.split('.')
+    const thirdPart = parts[2].trim();
+    const queryFilter = thirdPart.match(/\(([^)]+)\)/);
+
+    console.log(1111, queryFilter[1])
+    console.log(22222, parts[1])
+    const data = await db.collection(parts[1]).find(JSON.parse(queryFilter[1])).toArray();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching tasks data:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
