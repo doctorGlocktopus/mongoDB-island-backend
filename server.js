@@ -55,22 +55,16 @@ app.get('/api/items', async (req, res) => {
 
 app.post('/api/query', async (req, res) => {
   try {
+
     const db = client.db('test');
 
-    console.log(req.body.query);
-
     const formattedQuery = req.body.query.replace(/"([^":]+)":/g, '\\"$1\\":');
-
-    console.log(1111, formattedQuery);
 
     const parts = formattedQuery.split('.');
     const thirdPart = parts[2].trim();
     const queryFilter = thirdPart.match(/\(([^)]+)\)/);
 
-    console.log(22222, parts[1]);
-
     const jsonQuery = JSON.parse(queryFilter[1].replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
-    console.log(1123213213, jsonQuery);
 
     const data = await db.collection(parts[1]).find(jsonQuery).toArray();
     res.json(data);
